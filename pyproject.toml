@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flask-configurator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Env and file based configuration for Flask"
 authors = ["Maxime Bouroumeau-Fuseau <maxime.bouroumeau@gmail.com>"]
 readme = "README.md"

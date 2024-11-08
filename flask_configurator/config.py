@@ -12,14 +12,15 @@ class Config(FlaskConfig):
         self.env_prefix = env_prefix
         self.logger = logger
 
-    def load(self, filename="config.yml", default_env=None):
+    def load(self, filename="config.yml", default_env=None, **from_file_kwargs):
         if default_env:
             self["ENV"] = default_env
         if self.env_prefix:
             self.from_prefixed_env()
         self.from_dotenv()
         if filename:
-            self.from_file(filename, silent=True)
+            from_file_kwargs.setdefault("silent", True)
+            self.from_file(filename, **from_file_kwargs)
 
     def from_dotenv(self, env: t.Optional[str] = None):
         update_config_from_dotenv(self, logger=self.logger, prefix=self.env_prefix)
@@ -73,7 +74,7 @@ def update_config_from_file(
 
     if env:
         env_filename = envified_config_filename(filename, env)
-        env_config = read_config_file(env_filename, silent, text)
+        env_config = read_config_file(env_filename, True, text)
         if env_config is not False and logger:
             logger.info("Loaded config from %s" % env_filename)
         if env_config:
